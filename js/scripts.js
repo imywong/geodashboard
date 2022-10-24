@@ -148,10 +148,13 @@ const updateDeviceFaultCount=(record,device_fault_counts)=>{
 
 //Updates count of different types of faults
 const updateDeviceFaultTypeCount=(record,device_fault_type_counts)=>{
-    if (record.faultDescription in device_fault_type_counts){
-        device_fault_type_counts[record.faultDescription] += 1
+
+    let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`
+
+    if (faultCodeAndDescription in device_fault_type_counts){
+        device_fault_type_counts[faultCodeAndDescription] += 1
     }else {
-        device_fault_type_counts[record.faultDescription] = 1
+        device_fault_type_counts[faultCodeAndDescription] = 1
     }
         console.log("Fault type counts: " + JSON.stringify(device_fault_type_counts)); //DEBUG
     
