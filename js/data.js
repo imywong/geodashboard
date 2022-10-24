@@ -114,7 +114,7 @@ const faultRecords = [
         device_id : "G1234523",
         faultCode : 15,
         faultDescription : "Device unplugged",
-        dateTime :"2022-10-18",
+        dateTime :"2022-10-19",
         location : {
             lat:-33.2,
             long:138.56
@@ -134,7 +134,7 @@ const faultRecords = [
         device_id : "G1234523",
         faultCode : 30,
         faultDescription : "Accelerometer failure",
-        dateTime :"2022-10-16",
+        dateTime :"2022-10-20",
         location : {
             lat:-33.95,
             long:138.42

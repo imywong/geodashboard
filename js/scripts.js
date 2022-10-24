@@ -2,6 +2,7 @@ var deviceList =[]
 var faultList = []
 var faultCountChart = undefined
 var faultTypeCountChart = undefined
+var faultDateCountChart = undefined
 
 window.onload = () => {
     console.log("Window is loaded");
@@ -73,6 +74,7 @@ const getDevices=()=>{
     let records_arr = [] //stores records that match search criteria
     let device_fault_counts ={} //stores fault counts for each device
     let fault_type_counts={} //stores count of fault types
+    let fault_date_counts={} //stores count of fault dates
 
     let selectedDevice = document.getElementById('deviceList').value
     let selectedFault = document.getElementById('faultList').value
@@ -95,26 +97,30 @@ const getDevices=()=>{
             if (timeStamp>=startDate  && timeStamp<=endDate){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_type_counts = updateFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_date_counts = updateFaultDateCount(record,fault_date_counts) //update count of each fault by date
             }
 
         }else if (selectedDevice == 'all' && selectedFault != 'all'){
             if (timeStamp>=startDate  && timeStamp<=endDate && faultCodeAndDescription==selectedFault){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_type_counts = updateFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_date_counts = updateFaultDateCount(record,fault_date_counts) //update count of each fault by date
             }
         }else if (selectedDevice != 'all' && selectedFault == 'all'){
             if (timeStamp>=startDate  && timeStamp<=endDate && deviceId==selectedDevice){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_type_counts = updateFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_date_counts = updateFaultDateCount(record,fault_date_counts) //update count of each fault by date
             }
         }else{
             if (timeStamp>=startDate  && timeStamp<=endDate && deviceId==selectedDevice && faultCodeAndDescription==selectedFault){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_type_counts = updateFaultTypeCount(record,fault_type_counts) //update count of each fault type
+                fault_date_counts = updateFaultDateCount(record,fault_date_counts) //update count of each fault by date
             }
         }
 
@@ -132,6 +138,7 @@ const getDevices=()=>{
     generateMapAndTable(records_arr) //Pass date filtered records to generate table function
     generateFaultCountByDeviceChart(device_fault_counts)
     generateFaultCountByTypeChart(fault_type_counts)
+    generateFaultCountByDayChart(fault_date_counts)
 }
 
 //Updates count of faults for each device
@@ -141,13 +148,25 @@ const updateDeviceFaultCount=(record,device_fault_counts)=>{
     }else {
         device_fault_counts[record.device_id] = 1
     }
-        console.log("Fault counts: " + JSON.stringify(device_fault_counts)); //DEBUG
+        console.log("Device Fault counts: " + JSON.stringify(device_fault_counts)); //DEBUG
     
     return device_fault_counts
 }
 
-//Updates count of different types of faults
-const updateDeviceFaultTypeCount=(record,fault_type_counts)=>{
+//Updates count of each faults for each day
+const updateFaultDateCount=(record,device_date_counts)=>{
+    if (record.dateTime in device_date_counts){
+        device_date_counts[record.dateTime] += 1
+    }else {
+        device_date_counts[record.dateTime] = 1
+    }
+        console.log("Fault Date counts: " + JSON.stringify(device_date_counts)); //DEBUG
+    
+    return device_date_counts
+}
+
+//Updates count of each type of faults
+const updateFaultTypeCount=(record,fault_type_counts)=>{
 
     let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`
 
@@ -156,7 +175,7 @@ const updateDeviceFaultTypeCount=(record,fault_type_counts)=>{
     }else {
         fault_type_counts[faultCodeAndDescription] = 1
     }
-        console.log("Fault type counts: " + JSON.stringify(fault_type_counts)); //DEBUG
+        console.log("Fault Type counts: " + JSON.stringify(fault_type_counts)); //DEBUG
     
     return fault_type_counts
 }
@@ -281,6 +300,10 @@ const resetChart=()=>{
         faultTypeCountChart.destroy()
     }
 
+    if (faultDateCountChart != undefined){
+        faultDateCountChart.destroy()
+    }
+
 }
 
 
@@ -341,17 +364,29 @@ const generateFaultCountByTypeChart =(fault_type_counts)=>{
             label: 'Fault Type Count',
             data: faultTypeCountDataValues,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)'
-            ],
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+              ],
             borderColor: [
-                'rgb(255, 99, 132)'
-            ],
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+              ],
             borderWidth: 1
             }]
     };
 
         const faultTypeCountConfig = {
-            type: 'bar',
+            type: 'polarArea',
             data: faultTypeCountData,
             options: {
                 scales: {
@@ -369,4 +404,47 @@ const generateFaultCountByTypeChart =(fault_type_counts)=>{
             faultTypeCountConfig
             );
         
+}
+
+const generateFaultCountByDayChart =(fault_date_counts)=>{
+    console.log(Object.keys(fault_date_counts))
+    // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
+    let faultDateCountLabels = Object.keys(fault_date_counts)
+    let faultDateCountDataValues = Object.values(fault_date_counts)
+    // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
+
+    const faultDateCountData = {
+        labels: faultDateCountLabels,
+        datasets: [{
+            label: 'Fault Date Count',
+            data: faultDateCountDataValues,
+            fill:true,
+            backgroundColor: [
+                'rgba(255,196,12,0.2)'
+            ],
+            borderColor: [
+                'rgb(255,196,12)'
+            ],
+            borderWidth: 1
+            }]
+    };
+
+        const faultDateCountConfig = {
+            type: 'line',
+            data: faultDateCountData,
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                },
+                responsive:true,
+                maintainAspectRatio:false
+            },
+            };
+
+        faultDateCountChart= new Chart(
+            document.getElementById('faultDateCountChart'),
+            faultDateCountConfig
+            );
 }

@@ -37,23 +37,23 @@
 
         <div class="row">
             <div class="card">
+                <div class="section-heading">Device Faults</div>
+                <div id="table-container">
+                    <table id="data-table"></table>
+                </div>
+            </div>
+            <div class="card">
                 <div class="section-heading">Fault Locations</div>
                 <div id="mapid"></div>
                 <input type="button" value="Show All Markers" onclick="showAllMarkers()"></input>
-            </div>
-            <div class="card">
-                <div class="section-heading">Faults by Device</div>
-                <div class="chart-container">
-                    <canvas id="deviceFaultCountChart"></canvas>
-                </div>
 
             </div>
         </div>
         <div class="row">
             <div class="card">
-                <div class="section-heading">Results</div>
-                <div id="table-container">
-                    <table id="data-table"></table>
+                <div class="section-heading">Faults by Device</div>
+                <div class="chart-container">
+                 <canvas id="deviceFaultCountChart"></canvas>
                 </div>
 
             </div>
@@ -65,6 +65,15 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="long-card">
+                <div class="section-heading">Faults by Date</div>
+                <div class="chart-container">
+                <canvas id="faultDateCountChart"></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </body>
