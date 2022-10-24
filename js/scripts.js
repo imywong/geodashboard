@@ -289,14 +289,14 @@ const resetChart=()=>{
 const generateFaultCountByDeviceChart =(device_fault_counts)=>{
     console.log(Object.keys(device_fault_counts))
     // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
-    let faultCountLabels = Object.keys(device_fault_counts)
-    let faultCountDataValues = Object.values(device_fault_counts)
+    let deviceFaultCountLabels = Object.keys(device_fault_counts)
+    let deviceFaultCountDataValues = Object.values(device_fault_counts)
     // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
     const faultCountData = {
-        labels: faultCountLabels,
+        labels: deviceFaultCountLabels,
         datasets: [{
             label: 'Device Fault Count',
-            data: faultCountDataValues,
+            data: deviceFaultCountDataValues,
             backgroundColor: [
                 'rgba(54, 162, 235, 0.2)',
             ],
@@ -331,15 +331,15 @@ const generateFaultCountByDeviceChart =(device_fault_counts)=>{
 const generateFaultCountByTypeChart =(fault_type_counts)=>{
     console.log(Object.keys(fault_type_counts))
     // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
-    let faultCountTypeLabels = Object.keys(fault_type_counts)
-    let faultCountTypeDataValues = Object.values(fault_type_counts)
+    let faultTypeCountLabels = Object.keys(fault_type_counts)
+    let faultTypeCountDataValues = Object.values(fault_type_counts)
     // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
 
     const faultTypeCountData = {
-        labels: faultCountTypeLabels,
+        labels: faultTypeCountLabels,
         datasets: [{
             label: 'Fault Type Count',
-            data: faultCountTypeDataValues,
+            data: faultTypeCountDataValues,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)'
             ],
@@ -374,15 +374,15 @@ const generateFaultCountByTypeChart =(fault_type_counts)=>{
 const generateDeviceFaultCountTimelineChart =(fault_type_counts)=>{
     console.log(Object.keys(fault_type_counts))
     // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
-    let faultCountTypeLabels = Object.keys(fault_type_counts)
-    let faultCountTypeDataValues = Object.values(fault_type_counts)
+    let faultTypeCountLabels = Object.keys(fault_type_counts)
+    let faultTypeCountDataValues = Object.values(fault_type_counts)
     // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
 
     const faultTypeCountData = {
-        labels: faultCountTypeLabels,
+        labels: faultTypeCountLabels,
         datasets: [{
             label: 'Fault Type Count',
-            data: faultCountTypeDataValues,
+            data: faultTypeCountDataValues,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)'
             ],
