@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Location from Text</title>
+
+    <link rel="stylesheet" href="css/showLocationOnMap.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/scripts.js"></script>
+</head>
+
+<body>
+
+    <!-- Take the latitude and longitude input values-->
+    <div class="container">
+    <div id="nav-menu">
+        <div id="date-filter">
+            Device:
+            <select id="deviceList">
+                <option value="all">All</option>
+            </select>
+            Fault:
+            <select id="faultList">
+                <option value="all">All</option>
+            </select>
+            <label for="start-date-id">Start date :</label>
+            <input type="date" id="start-date-id" name="start-date" value="2022-10-15">
+            <label for="end-date-id">End date :</label>
+            <input type="date" id="end-date-id" name="end-date" value="2022-10-25">
+            <input type="button" value="Get Devices" onclick="getDevices()"></input>
+        </div>
+
+    </div>
+
+        <div class="row">
+            <div class="card">
+                <div class="section-heading">Fault Locations</div>
+                <div id="mapid"></div>
+                <input type="button" value="Show All Markers" onclick="showAllMarkers()"></input>
+            </div>
+            <div class="card">
+                <div class="section-heading">Faults by Device</div>
+                <div class="chart-container">
+                    <canvas id="faultCountChart"></canvas>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="section-heading">Results</div>
+                <div id="table-container">
+                    <table id="data-table"></table>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="section-heading">Faults by Type</div>
+                <div class="chart-container">
+                <canvas id="faultTypeCountChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<footer>
+    <script src=js/maps.js> </script> </footer>
