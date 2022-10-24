@@ -72,7 +72,7 @@ const getDevices=()=>{
 
     let records_arr = [] //stores records that match search criteria
     let device_fault_counts ={} //stores fault counts for each device
-    let device_fault_type_counts={} //stores count of fault types
+    let fault_type_counts={} //stores count of fault types
 
     let selectedDevice = document.getElementById('deviceList').value
     let selectedFault = document.getElementById('faultList').value
@@ -95,26 +95,26 @@ const getDevices=()=>{
             if (timeStamp>=startDate  && timeStamp<=endDate){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                device_fault_type_counts = updateDeviceFaultTypeCount(record,device_fault_type_counts) //update count of each fault type
+                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
             }
 
         }else if (selectedDevice == 'all' && selectedFault != 'all'){
             if (timeStamp>=startDate  && timeStamp<=endDate && faultCodeAndDescription==selectedFault){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                device_fault_type_counts = updateDeviceFaultTypeCount(record,device_fault_type_counts) //update count of each fault type
+                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
             }
         }else if (selectedDevice != 'all' && selectedFault == 'all'){
             if (timeStamp>=startDate  && timeStamp<=endDate && deviceId==selectedDevice){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                device_fault_type_counts = updateDeviceFaultTypeCount(record,device_fault_type_counts) //update count of each fault type
+                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
             }
         }else{
             if (timeStamp>=startDate  && timeStamp<=endDate && deviceId==selectedDevice && faultCodeAndDescription==selectedFault){
                 records_arr.push(record) 
                 device_fault_counts = updateDeviceFaultCount(record,device_fault_counts) //update fault counts for each device
-                device_fault_type_counts = updateDeviceFaultTypeCount(record,device_fault_type_counts) //update count of each fault type
+                fault_type_counts = updateDeviceFaultTypeCount(record,fault_type_counts) //update count of each fault type
             }
         }
 
@@ -131,7 +131,7 @@ const getDevices=()=>{
     console.log(endDate)
     generateMapAndTable(records_arr) //Pass date filtered records to generate table function
     generateFaultCountByDeviceChart(device_fault_counts)
-    generateFaultCountByTypeChart(device_fault_type_counts)
+    generateFaultCountByTypeChart(fault_type_counts)
 }
 
 //Updates count of faults for each device
@@ -147,18 +147,18 @@ const updateDeviceFaultCount=(record,device_fault_counts)=>{
 }
 
 //Updates count of different types of faults
-const updateDeviceFaultTypeCount=(record,device_fault_type_counts)=>{
+const updateDeviceFaultTypeCount=(record,fault_type_counts)=>{
 
     let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`
 
-    if (faultCodeAndDescription in device_fault_type_counts){
-        device_fault_type_counts[faultCodeAndDescription] += 1
+    if (faultCodeAndDescription in fault_type_counts){
+        fault_type_counts[faultCodeAndDescription] += 1
     }else {
-        device_fault_type_counts[faultCodeAndDescription] = 1
+        fault_type_counts[faultCodeAndDescription] = 1
     }
-        console.log("Fault type counts: " + JSON.stringify(device_fault_type_counts)); //DEBUG
+        console.log("Fault type counts: " + JSON.stringify(fault_type_counts)); //DEBUG
     
-    return device_fault_type_counts
+    return fault_type_counts
 }
 
 // Returns table listing faults for specific device
@@ -328,11 +328,11 @@ const generateFaultCountByDeviceChart =(device_fault_counts)=>{
         
 }
 
-const generateFaultCountByTypeChart =(device_fault_type_counts)=>{
-    console.log(Object.keys(device_fault_type_counts))
+const generateFaultCountByTypeChart =(fault_type_counts)=>{
+    console.log(Object.keys(fault_type_counts))
     // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
-    let faultCountTypeLabels = Object.keys(device_fault_type_counts)
-    let faultCountTypeDataValues = Object.values(device_fault_type_counts)
+    let faultCountTypeLabels = Object.keys(fault_type_counts)
+    let faultCountTypeDataValues = Object.values(fault_type_counts)
     // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
 
     const faultTypeCountData = {
