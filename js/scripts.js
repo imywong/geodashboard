@@ -307,7 +307,7 @@ const generateFaultCountByDeviceChart =(device_fault_counts)=>{
             }]
     };
 
-        const faultCountConfig = {
+        const deviceFaultCountConfig = {
         type: 'bar',
         data: faultCountData,
         options: {
@@ -322,13 +322,56 @@ const generateFaultCountByDeviceChart =(device_fault_counts)=>{
         };
 
         faultCountChart= new Chart(
-        document.getElementById('faultCountChart'),
-        faultCountConfig
+        document.getElementById('deviceFaultCountChart'),
+        deviceFaultCountConfig
         );
         
 }
 
 const generateFaultCountByTypeChart =(fault_type_counts)=>{
+    console.log(Object.keys(fault_type_counts))
+    // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
+    let faultCountTypeLabels = Object.keys(fault_type_counts)
+    let faultCountTypeDataValues = Object.values(fault_type_counts)
+    // let dataValues = [2, 4,5,7] // GET THESE VALUES FROM RECORDS
+
+    const faultTypeCountData = {
+        labels: faultCountTypeLabels,
+        datasets: [{
+            label: 'Fault Type Count',
+            data: faultCountTypeDataValues,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)'
+            ],
+            borderWidth: 1
+            }]
+    };
+
+        const faultTypeCountConfig = {
+            type: 'bar',
+            data: faultTypeCountData,
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                },
+                responsive:true,
+                maintainAspectRatio:false
+            },
+            };
+
+        faultTypeCountChart= new Chart(
+            document.getElementById('faultTypeCountChart'),
+            faultTypeCountConfig
+            );
+        
+}
+
+const generateDeviceFaultCountTimelineChart =(fault_type_counts)=>{
     console.log(Object.keys(fault_type_counts))
     // let labels = ['G1234567','G7654321','G6234567','G3654321'] //GET THESE VALUES FROM RECORDS
     let faultCountTypeLabels = Object.keys(fault_type_counts)
