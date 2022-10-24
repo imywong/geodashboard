@@ -29,7 +29,7 @@ const getDeviceList =()=>{
 const getFaultList = () =>{
     console.log("[getFaultsList] Running") //DEBUG
     faultRecords.forEach((record) => {
-        let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`
+        let faultCodeAndDescription = record.faultDescription
 
         if (faultList.includes(faultCodeAndDescription)==false){
             faultList.push(faultCodeAndDescription)
@@ -88,7 +88,7 @@ const getDevices=()=>{
     //Checks database for matching records
     faultRecords.forEach((record)=>{
 
-        let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`;
+        let faultCodeAndDescription = record.faultDescription;
         let deviceId = record.device_id;
         let timeStamp =  record.dateTime;
 
@@ -168,7 +168,7 @@ const updateFaultDateCount=(record,device_date_counts)=>{
 //Updates count of each type of faults
 const updateFaultTypeCount=(record,fault_type_counts)=>{
 
-    let faultCodeAndDescription = `(${record.faultCode}) ${record.faultDescription}`
+    let faultCodeAndDescription = record.faultDescription
 
     if (faultCodeAndDescription in fault_type_counts){
         fault_type_counts[faultCodeAndDescription] += 1
@@ -188,6 +188,8 @@ const generateMapAndTable = (records_arr) => {
     let tablerows = [];
   
     let header = document.createElement("TR");
+    let headerItemCol0 = document.createElement("TH");
+    let headerNodeCol0 = document.createTextNode("No.");
     let headerItemCol1 = document.createElement("TH");
     let headerNodeCol1 = document.createTextNode("Device Id");
     let headerItemCol2 = document.createElement("TH");
@@ -195,17 +197,18 @@ const generateMapAndTable = (records_arr) => {
     let headerItemCol3 = document.createElement("TH");
     let headerNodeCol3 = document.createTextNode("Code");
     let headerItemCol4 = document.createElement("TH");
-    let headerNodeCol4 = document.createTextNode("Time Stamp");
+    let headerNodeCol4 = document.createTextNode("Date");
     let headerItemCol5 = document.createElement("TH");
-    let headerNodeCol5 = document.createTextNode("Location");
+    let headerNodeCol5 = document.createTextNode("Coordinates");
   
+    headerItemCol0.appendChild(headerNodeCol0);
     headerItemCol1.appendChild(headerNodeCol1);
     headerItemCol2.appendChild(headerNodeCol2);
     headerItemCol3.appendChild(headerNodeCol3);
     headerItemCol4.appendChild(headerNodeCol4);
     headerItemCol5.appendChild(headerNodeCol5);
 
-  
+    header.appendChild(headerItemCol0); 
     header.appendChild(headerItemCol1);
     header.appendChild(headerItemCol2);
     header.appendChild(headerItemCol3);
@@ -217,12 +220,20 @@ const generateMapAndTable = (records_arr) => {
       "[generateMapAndTable] Content of records_arr after being passed into function "
     ); //DEBUG
     console.log(records_arr); //DEBUG
+
   
+    let counter = 1;
     records_arr.forEach((record) => {
       console.log("[generateMapAndTable] Current record being looped through"); //DEBUG
       console.log(record); //DEBUG
   
       let list = document.createElement("TR");
+
+      //Number column
+      Num_Item = document.createElement("TD");
+      Num_Node = document.createTextNode(counter);
+      Num_Item.appendChild(Num_Node);
+      counter+=1;
   
       //Device Id column
       deviceId_Item = document.createElement("TD");
@@ -249,6 +260,7 @@ const generateMapAndTable = (records_arr) => {
       faultLocation_Node = document.createTextNode(`${record.location.lat}, ${record.location.long}`);
       faultLocation_Item.appendChild(faultLocation_Node);
   
+      list.appendChild(Num_Item);
       list.appendChild(deviceId_Item);
       list.appendChild(faultDescription_Item);
       list.appendChild(faultCode_Item);
@@ -364,22 +376,22 @@ const generateFaultCountByTypeChart =(fault_type_counts)=>{
             label: 'Fault Type Count',
             data: faultTypeCountDataValues,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(201, 203, 207, 0.2)'
+                'rgba(201, 203, 207, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)'
               ],
             borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
                 'rgb(75, 192, 192)',
                 'rgb(54, 162, 235)',
                 'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
+                'rgb(201, 203, 207)',
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
               ],
             borderWidth: 1
             }]
@@ -420,10 +432,10 @@ const generateFaultCountByDayChart =(fault_date_counts)=>{
             data: faultDateCountDataValues,
             fill:true,
             backgroundColor: [
-                'rgba(255,196,12,0.2)'
+                'rgba(54, 162, 235, 0.2)',
             ],
             borderColor: [
-                'rgb(255,196,12)'
+                'rgb(54, 162, 235)',
             ],
             borderWidth: 1
             }]
